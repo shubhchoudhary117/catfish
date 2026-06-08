@@ -1,0 +1,64 @@
+<header class="game-header">
+  <nav class="game-header-nav">
+
+    <div class="gamename-with-logo">
+      <img src="assets/catfish/catfish-logo.png" class="gamelogo-img" />
+      <div class="gamename">Swilnder</div>
+    </div>
+
+    <div class="wallet-and-settings">
+      <div class="wallet-balance-box">
+        <div class="wallet-balance">
+          {{ User?.balance ? (User.balance | number:'1.2-2') : '0.00' }}
+        </div>
+        <i class="fas fa-wallet wallet-icon"></i>
+      </div>
+
+      <button class="settings" (click)="showProfileModal = true">
+        <i class="fas fa-cog setting-icon"></i>
+      </button>
+    </div>
+
+  </nav>
+</header>
+
+
+<div class="profile-modal" [ngClass]="showProfileModal ? 'active' : 'close'">
+
+  <div class="profile-header">
+    <div class="profile-details">
+      <img src="assets/catfish/profileIcon.jpeg" class="profile-img" />
+      <div class="profile-username">Coder 111</div>
+    </div>
+
+    <i class="fas fa-times profile-close-icon" (click)="showProfileModal = false"></i>
+  </div>
+
+  <div class="profile-settings-list">
+
+    <!-- Sound -->
+    <div class="profile-setting">
+      <div class="setting-name">Sound</div>
+
+      <i class="profile-setting-icon" [ngClass]="User.Settings.Sound_On ? 'fas fa-volume-up' : 'fas fa-volume-mute'"
+        (click)="handleSoundSetting()">
+      </i>
+    </div>
+
+    <!-- Game Rules -->
+    <div class="profile-setting">
+      <div class="setting-name">Game Rules</div>
+
+      <i class="fas fa-bars profile-setting-icon" (click)="openGameRules()">
+      </i>
+    </div>
+
+  </div>
+</div>
+
+<app-catfish-rules-modal *ngIf="showRulesModal" [User]="User" [showRulesModal]="showRulesModal"
+  (close)="showRulesModal = false">
+</app-catfish-rules-modal>
+
+
+

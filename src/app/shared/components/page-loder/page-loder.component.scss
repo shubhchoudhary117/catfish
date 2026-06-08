@@ -1,0 +1,385 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap');
+
+// ── Root ──────────────────────────────────────────────────────
+.page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(226, 0, 106, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(107, 77, 255, 0.15) 0%, transparent 60%),
+        #01051a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+
+    &--out {
+        opacity: 0;
+    }
+
+    &--hidden {
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
+// ── Scanlines ─────────────────────────────────────────────────
+.page-loader__scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.08) 2px,
+            rgba(0, 0, 0, 0.08) 4px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+// ── Noise ─────────────────────────────────────────────────────
+.page-loader__noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+}
+
+// ── Corner brackets ───────────────────────────────────────────
+.page-loader__corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    z-index: 2;
+
+    &--tl {
+        top: 24px;
+        left: 24px;
+        border-top: 2px solid rgba(226, 0, 106, 0.6);
+        border-left: 2px solid rgba(226, 0, 106, 0.6);
+    }
+
+    &--tr {
+        top: 24px;
+        right: 24px;
+        border-top: 2px solid rgba(226, 0, 106, 0.6);
+        border-right: 2px solid rgba(226, 0, 106, 0.6);
+    }
+
+    &--bl {
+        bottom: 24px;
+        left: 24px;
+        border-bottom: 2px solid rgba(226, 0, 106, 0.6);
+        border-left: 2px solid rgba(226, 0, 106, 0.6);
+    }
+
+    &--br {
+        bottom: 24px;
+        right: 24px;
+        border-bottom: 2px solid rgba(226, 0, 106, 0.6);
+        border-right: 2px solid rgba(226, 0, 106, 0.6);
+    }
+}
+
+// ── Body ──────────────────────────────────────────────────────
+.page-loader__body {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+// ── Ring ──────────────────────────────────────────────────────
+.page-loader__ring-wrap {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+.page-loader__ring-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: pl-ring-spin 2s linear infinite;
+
+    .page-loader__ring-track {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.05);
+        stroke-width: 3;
+    }
+
+    .page-loader__ring-spin {
+        fill: none;
+        stroke: url(#pl-grad);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-dasharray: 339.3;
+        stroke-dashoffset: 255;
+        filter: drop-shadow(0 0 6px rgba(226, 0, 106, 0.8));
+    }
+}
+
+.page-loader__ring-inner {
+    position: absolute;
+    inset: 16px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-loader__logo-icon {
+    width: 60px;
+    height: 60px;
+    background-image: url("../../../../../public/assets/catfish/catfish-logo.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: pl-logo-pulse 2s ease-in-out infinite;
+}
+
+// ── Brand ─────────────────────────────────────────────────────
+.page-loader__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.page-loader__brand-text {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.8rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    background: linear-gradient(90deg, #ff6a00 0%, #e2006a 45%, #9b4dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: pl-brand-flicker 4s ease-in-out infinite;
+}
+
+.page-loader__brand-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+}
+
+// ── Status line ───────────────────────────────────────────────
+.page-loader__status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    min-height: 20px;
+}
+
+.page-loader__cursor {
+    color: #e2006a;
+    animation: pl-cursor-blink 1s step-end infinite;
+}
+
+// ── Progress bar ──────────────────────────────────────────────
+.page-loader__bar-wrap {
+    width: 340px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-loader__bar-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 99px;
+    overflow: visible;
+    position: relative;
+}
+
+.page-loader__bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #ff6a00, #e2006a, #9b4dff);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 6px;
+    position: relative;
+}
+
+.page-loader__bar-glow {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 100, 200, 0.9);
+    border-radius: 50%;
+    filter: blur(4px);
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.page-loader__pct {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    min-width: 42px;
+    text-align: right;
+}
+
+// ── Bouncing dots ─────────────────────────────────────────────
+.page-loader__dots {
+    display: flex;
+    gap: 8px;
+
+    span {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        animation: pl-dot 1.4s ease-in-out infinite;
+
+        &:nth-child(1) {
+            background: #ff6a00;
+            animation-delay: 0s;
+        }
+
+        &:nth-child(2) {
+            background: #e2006a;
+            animation-delay: 0.14s;
+        }
+
+        &:nth-child(3) {
+            background: #c534ff;
+            animation-delay: 0.28s;
+        }
+
+        &:nth-child(4) {
+            background: #e2006a;
+            animation-delay: 0.42s;
+        }
+
+        &:nth-child(5) {
+            background: #ff6a00;
+            animation-delay: 0.56s;
+        }
+    }
+}
+
+// ── Keyframes ─────────────────────────────────────────────────
+@keyframes pl-ring-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pl-logo-pulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+}
+
+@keyframes pl-brand-flicker {
+
+    0%,
+    95%,
+    100% {
+        opacity: 1;
+    }
+
+    96% {
+        opacity: 0.6;
+    }
+
+    97% {
+        opacity: 1;
+    }
+
+    98% {
+        opacity: 0.4;
+    }
+
+    99% {
+        opacity: 1;
+    }
+}
+
+@keyframes pl-cursor-blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes pl-dot {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0.5);
+        opacity: 0.3;
+    }
+
+    40% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+}
+
+// ── Mobile ────────────────────────────────────────────────────
+@media screen and (max-width: 480px) {
+    .page-loader__brand-text {
+        font-size: 2rem;
+        letter-spacing: 5px;
+    }
+
+    .page-loader__brand-sub {
+        font-size: 0.5rem;
+        letter-spacing: 3px;
+    }
+
+    .page-loader__ring-wrap {
+        width: 110px;
+        height: 110px;
+    }
+
+    .page-loader__logo-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .page-loader__bar-wrap {
+        width: 88vw;
+    }
+
+    .page-loader__status {
+        font-size: 0.68rem;
+    }
+
+    .page-loader__corner {
+        width: 28px;
+        height: 28px;
+    }
+}

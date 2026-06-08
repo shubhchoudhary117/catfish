@@ -1,0 +1,63 @@
+<div class="page-loader" [class.page-loader--hidden]="hidden" [class.page-loader--out]="fadeOut">
+
+    <!-- Scanline overlay -->
+    <div class="page-loader__scanlines"></div>
+
+    <!-- Noise texture -->
+    <div class="page-loader__noise"></div>
+
+    <!-- Corner brackets -->
+    <div class="page-loader__corner page-loader__corner--tl"></div>
+    <div class="page-loader__corner page-loader__corner--tr"></div>
+    <div class="page-loader__corner page-loader__corner--bl"></div>
+    <div class="page-loader__corner page-loader__corner--br"></div>
+
+    <!-- Main content -->
+    <div class="page-loader__body">
+
+        <!-- Logo ring -->
+        <div class="page-loader__ring-wrap">
+            <svg class="page-loader__ring-svg" viewBox="0 0 120 120">
+                <defs>
+                    <linearGradient id="pl-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#ff6a00" />
+                        <stop offset="45%" stop-color="#e2006a" />
+                        <stop offset="100%" stop-color="#9b4dff" />
+                    </linearGradient>
+                </defs>
+                <circle class="page-loader__ring-track" cx="60" cy="60" r="54" />
+                <circle class="page-loader__ring-spin" cx="60" cy="60" r="54" />
+            </svg>
+            <div class="page-loader__ring-inner">
+                <div class="page-loader__logo-icon"></div>
+            </div>
+        </div>
+
+        <!-- Brand -->
+        <div class="page-loader__brand">
+            <span class="page-loader__brand-text">SWINDLER</span>
+            <span class="page-loader__brand-sub">DATING · DANGER · DECEPTION</span>
+        </div>
+
+        <!-- Status -->
+        <div class="page-loader__status">
+            <span class="page-loader__status-text">{{ message }}</span>
+            <span class="page-loader__cursor">▮</span>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="page-loader__bar-wrap">
+            <div class="page-loader__bar-track">
+                <div class="page-loader__bar-fill" [style.width.%]="progress"></div>
+                <div class="page-loader__bar-glow" [style.left.%]="progress"></div>
+            </div>
+            <span class="page-loader__pct">{{ progress }}%</span>
+        </div>
+
+        <!-- Dots -->
+        <div class="page-loader__dots">
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+    </div>
+</div>

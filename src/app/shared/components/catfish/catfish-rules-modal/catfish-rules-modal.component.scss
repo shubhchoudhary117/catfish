@@ -1,0 +1,373 @@
+.rules-modal-overlay {
+    width: 100%;
+    height: 100vh;
+    background: rgba(10, 8, 16, 0.92);
+    z-index: 9999;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    opacity: 1;
+    transition: opacity 0.25s ease;
+
+    &.hide {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+.game-rules-modal {
+    width: 620px;
+    max-width: 100%;
+    max-height: 90vh; // modal viewport se bahar nahi jayega
+    background: linear-gradient(135deg, #ff8f2b, #e8446e, #c534ff);
+    border-radius: 16px;
+    padding: 2px;
+    display: flex;
+    flex-direction: column; // flex so inner can scroll
+}
+
+.modal-inner {
+    background: #141318;
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    position: relative;
+    overflow: hidden; // only clips the glow pseudo, NOT the scroll
+    display: flex;
+    flex-direction: column;
+    min-height: 0; // flex child shrink fix
+    max-height: calc(90vh - 4px);
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 160px;
+        background: radial-gradient(ellipse at 50% -20%, rgba(155, 77, 255, 0.15) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+    }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0; // header never squishes
+}
+
+.modal-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ff8f2b, #c534ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+}
+
+.modal-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 1px;
+}
+
+.close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+    }
+}
+
+.modal-divider {
+    height: 1px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08) 20%, rgba(255, 255, 255, 0.08) 80%, transparent);
+    margin-bottom: 16px;
+}
+
+// ── Accordion list — THIS is the scroll container ─────────
+.rules-list {
+    flex: 1; // takes all remaining height
+    min-height: 0; // critical — lets flex child scroll
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+    padding-right: 4px;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 4px;
+    }
+}
+
+// ── Rule card ─────────────────────────────────────────────
+.rule-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0; // cards don't shrink — list scrolls instead
+    transition: border-color 0.2s, background 0.2s;
+
+    &.open {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    &:nth-child(1) .rule-accent {
+        background: linear-gradient(180deg, #ff8f2b, #ff5b85);
+    }
+
+    &:nth-child(2) .rule-accent {
+        background: linear-gradient(180deg, #ff5b85, #c534ff);
+    }
+
+    &:nth-child(3) .rule-accent {
+        background: linear-gradient(180deg, #c534ff, #7b2fff);
+    }
+
+    &:nth-child(4) .rule-accent {
+        background: linear-gradient(180deg, #ff8f2b, #c534ff);
+    }
+
+    &:nth-child(5) .rule-accent {
+        background: linear-gradient(180deg, #ff5b85, #ff8f2b);
+    }
+
+    &:nth-child(6) .rule-accent {
+        background: linear-gradient(180deg, #ff8f2b, #ff5b85);
+    }
+
+    &:nth-child(7) .rule-accent {
+        background: linear-gradient(180deg, #c534ff, #ff5b85);
+    }
+}
+
+// ── Trigger button ────────────────────────────────────────
+.rule-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-align: left;
+}
+
+.rule-accent {
+    width: 3px;
+    min-height: 36px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    align-self: stretch; // stretches to full trigger height
+}
+
+.rule-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.rule-number {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.25);
+    margin-bottom: 3px;
+}
+
+.rule-title {
+    font-size: 13px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff9d2f, #ff5b85);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    white-space: normal; // allow wrap
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.chevron {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.35);
+    transition: transform 0.3s ease, color 0.2s, background 0.2s;
+
+    svg {
+        display: block;
+    }
+}
+
+.rule-card.open .chevron {
+    transform: rotate(180deg);
+    color: rgba(255, 150, 80, 0.9);
+    background: rgba(255, 120, 60, 0.1);
+    border-color: rgba(255, 120, 60, 0.2);
+}
+
+// ── Accordion body — NO max-height limit, auto height ─────
+.rule-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rule-card.open .rule-body {
+    max-height: 2000px; // large enough for any content
+}
+
+.rule-body-inner {
+    padding: 2px 16px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.rule-step {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.65;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    white-space: normal;
+    word-break: break-word;
+
+    &::before {
+        display: none;
+    }
+}
+
+.rule-step-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 120, 60, 0.55);
+    flex-shrink: 0;
+    margin-top: 8px;
+}
+
+.rule-desc {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.7;
+    white-space: normal;
+    word-break: break-word;
+}
+
+// ── Footer ────────────────────────────────────────────────
+.modal-footer {
+    flex-shrink: 0;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 1;
+}
+
+.got-it-btn {
+    padding: 10px 28px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #ff9d2f 0%, #ff5b85 50%, #9b4dff 100%);
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s, transform 0.15s;
+
+    &:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+// ── Responsive ────────────────────────────────────────────
+@media screen and (max-width: 768px) {
+    .rules-modal-overlay {
+        padding: 16px;
+    }
+
+    .game-rules-modal {
+        max-height: 92vh;
+    }
+
+    .modal-inner {
+        padding: 18px 14px 16px;
+        max-height: calc(92vh - 4px);
+    }
+
+    .modal-title {
+        font-size: 17px;
+    }
+}
